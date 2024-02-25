@@ -1,5 +1,7 @@
-package minhaubs.api.model;
+package minhaubs.api.entity;
+
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,25 +11,23 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-@Table(name = "endereco")
-@Entity(name = "Endereco")
+@Table(name = "pessoa")
+@Entity(name = "Pessoa")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Embeddable
-public class Endereco {
+public class Pessoa {
+    
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String pais;
-    private String uf;
-    private String cidade;
-    private String bairro;
-    private String rua;
-    private String numero;
-    private Long cep;
-    private String complemento;
+    private String nome;
+    private Long fone;
+    
+    private Long cpf;
 }
