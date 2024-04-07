@@ -1,0 +1,54 @@
+CREATE TABLE `tipo_pessoa` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`tipo` VARCHAR(50) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8mb4_general_ci';
+
+COLLATE='utf8mb4_general_ci';
+
+CREATE TABLE `tipo_pessoa` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`tipo` VARCHAR(50) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8mb4_general_ci';
+
+INSERT INTO `minha_ubs`.`tipo_pessoa` (`tipo`) VALUES ('AGENTE');
+INSERT INTO `minha_ubs`.`tipo_pessoa` (`tipo`) VALUES ('MORADOR');
+
+CREATE TABLE `posto_pessoas` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`id_pessoa` INT NULL,
+	`id_posto` INT NULL,
+	`id_tipo` INT NULL,
+	PRIMARY KEY (`id`),
+	CONSTRAINT `FK__pessoa` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK__posto` FOREIGN KEY (`id_posto`) REFERENCES `posto` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `FK__tipo_pessoa` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_pessoa` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8mb4_general_ci';
+
+CREATE TABLE `noticias` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`noticia` MEDIUMTEXT NOT NULL,
+	`id_agente` INT NOT NULL,
+	`id_posto` INT NOT NULL,
+	`datahora` TIMESTAMP NOT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8mb4_general_ci';
+
+ALTER TABLE `noticias`
+ADD CONSTRAINT `FK_noticias_pessoa` FOREIGN KEY (`id_agente`) REFERENCES `pessoa` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+ADD CONSTRAINT `FK_noticias_posto` FOREIGN KEY (`id_posto`) REFERENCES `posto` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+CREATE TABLE `visitas` (
+	`id` INT NOT NULL,
+	`id_agente` INT NOT NULL,
+	`id_familia` INT NOT NULL,
+	`data_hora` TIMESTAMP NULL DEFAULT NOW(),
+	PRIMARY KEY (`id`),
+	CONSTRAINT `FK_visita_pessoa` FOREIGN KEY (`id_agente`) REFERENCES `pessoa` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8mb4_general_ci';
