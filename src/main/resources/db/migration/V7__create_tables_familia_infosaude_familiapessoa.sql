@@ -1,7 +1,7 @@
 CREATE TABLE `familia` (
 	`id` INT NULL AUTO_INCREMENT,
 	`nome` VARCHAR(50) NULL DEFAULT NULL,
-	INDEX `Index 1` (`id`)
+	PRIMARY KEY  `Index 1` (`id`)
 )
 COLLATE='utf8mb4_general_ci';
 
@@ -9,7 +9,7 @@ CREATE TABLE `familia_pessoa` (
 	`id` INT NULL AUTO_INCREMENT,
 	`id_pessoa` INT NULL,
 	`id_familia` INT NULL,
-	INDEX `Index 1` (`id`),
+	PRIMARY KEY  `Index 1` (`id`),
 	CONSTRAINT `FK__pessoa` FOREIGN KEY (`id_pessoa`) REFERENCES `pessoa` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT `FK__familia` FOREIGN KEY (`id_familia`) REFERENCES `familia` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
@@ -27,6 +27,6 @@ CREATE TABLE `informacoes_saude` (
 	`tipo` INT NULL,
 	`descricao_tipo` VARCHAR(50) NULL DEFAULT NULL,
 	`descricao_info` VARCHAR(50) NULL DEFAULT NULL,
-	INDEX `Index 1` (`id`)
+	PRIMARY KEY  `Index 1` (`id`)
 )
 COLLATE='utf8mb4_general_ci';

@@ -2,8 +2,8 @@ CREATE TABLE `visita` (
 	`id` INT NOT NULL,
 	`id_familia` INT NULL,
 	`agente` INT NULL,
-	`data` TIMESTAMP NULL DEFAULT NOW(),
-	INDEX `Index 1` (`id`)
+	`data_hora` TIMESTAMP NULL DEFAULT NOW(),
+	PRIMARY KEY `Index 1` (`id`)
 )
 COLLATE='utf8mb4_general_ci';
 
