@@ -1,15 +1,12 @@
 package minhaubs.api.controller;
 
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +20,7 @@ import minhaubs.api.repository.PessoaRepository;
 import minhaubs.api.repository.UsuarioRepository;
 import minhaubs.api.services.UsuarioService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("usuario")
 public class UsuarioController {
@@ -47,19 +45,21 @@ public class UsuarioController {
         return this.usuarioService.getVinculosAtivos(ProfessionalId, userCpf);
     }
 
+    @CrossOrigin("http://localhost:8080")
     @PostMapping(path="/cadastrar")
     public String cadastrar(@RequestBody Map<String, String> userData) throws NoSuchAlgorithmException{
 
-        String ProfessionalId = userData.get(Constants.ID_PROFISSIONAL);
-        String userCpf = userData.get(Constants.CPF);
+        //String ProfessionalId = userData.get(Constants.ID_PROFISSIONAL);
+        //String userCpf = userData.get(Constants.CPF);
 
         Long cpf = Long.parseLong(userData.get("cpf"));
         Long fone = Long.parseLong(userData.get("fone"));
         Pessoa person = new Pessoa(123L, userData.get("nome"),cpf, fone);
         
+        System.out.println(cpf);
+        
         String email = userData.get("email");
-        String senha = Utils.passwordMd5Enconde(userData.get("senha")); //
-        System.out.println(senha);
+        String senha = Utils.passwordMd5Encode(userData.get("senha")); //
         
         if(pessoaRepository.findByCpf(cpf).size() > 0 || 
         		usuarioRepository.findByEmail(email).size() > 0) {
@@ -76,13 +76,15 @@ public class UsuarioController {
 
     }
     
+    @CrossOrigin("http://localhost:8080")
     @PostMapping(path="/login")
     public String login(@RequestBody Map<String, String> userDataLogin) throws NoSuchAlgorithmException{
     	
+    	System.out.println(userDataLogin);
     	Usuario userAuthenticated = null;
     	List<Usuario> listUserAuthenticated = usuarioRepository.findByEmail(
     			userDataLogin.get("email"));
-        String encryptedPassword = Utils.passwordMd5Enconde(userDataLogin.get("senha"));
+        String encryptedPassword = Utils.passwordMd5Encode(userDataLogin.get("senha"));
         
         if(listUserAuthenticated.size() > 0) {
         	userAuthenticated = listUserAuthenticated.get(0);
