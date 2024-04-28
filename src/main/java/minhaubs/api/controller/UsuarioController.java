@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,8 +54,8 @@ public class UsuarioController {
         //String ProfessionalId = userData.get(Constants.ID_PROFISSIONAL);
         //String userCpf = userData.get(Constants.CPF);
 
-        Long cpf = Long.parseLong(userData.get("cpf"));
-        Long fone = Long.parseLong(userData.get("fone"));
+        String cpf = userData.get("cpf");
+        String fone = userData.get("fone");
         Pessoa person = new Pessoa(123L, userData.get("nome"),cpf, fone);
         
         System.out.println(cpf);
@@ -78,9 +80,8 @@ public class UsuarioController {
     
     @CrossOrigin("http://localhost:8080")
     @PostMapping(path="/login")
-    public String login(@RequestBody Map<String, String> userDataLogin) throws NoSuchAlgorithmException{
+    public ResponseEntity login(@RequestBody Map<String, String> userDataLogin) throws NoSuchAlgorithmException{
     	
-    	System.out.println(userDataLogin);
     	Usuario userAuthenticated = null;
     	List<Usuario> listUserAuthenticated = usuarioRepository.findByEmail(
     			userDataLogin.get("email"));
@@ -89,16 +90,16 @@ public class UsuarioController {
         if(listUserAuthenticated.size() > 0) {
         	userAuthenticated = listUserAuthenticated.get(0);
         }else {
-        	return "Logou não, man";
-        	//return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
+        	//return "Logou não, man";
+        	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
         }
         
         if(userAuthenticated != null &&
         		userAuthenticated.getSenha().equals(encryptedPassword)){
-            return "Logou";
+                    return new ResponseEntity<>(userAuthenticated,HttpStatus.OK); 
         }
         
-    	return "Logou não";
+    	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     	
     }
 }

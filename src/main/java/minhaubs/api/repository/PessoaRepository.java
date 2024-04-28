@@ -8,5 +8,5 @@ import java.util.List;
 
 
 public interface PessoaRepository extends JpaRepository<Pessoa,Long>{
-    List<Pessoa> findByCpf(Long cpf);
+    List<Pessoa> findByCpf(String cpf);
 }

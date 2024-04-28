@@ -27,7 +27,7 @@ public class Pessoa {
     private Long id;
 
     private String nome;
-    private Long fone;
+    private String fone;
     
-    private Long cpf;
+    private String cpf;
 }

@@ -8,9 +8,9 @@ VALUES
 ('Lucas Souza','61967890123','67891234505'),
 ('Paula Rocha','71978901234','78912345606'),
 ('Rafael Dias','81989012345','89123456707'),
-('Fernanda Gomes','91990123456','91234567808');
-('Gabriel Martins','11991234567','12345678909');
-('Lindalva Lira','81987654321','11234456789'),
+('Fernanda Gomes','91990123456','91234567808'),
+('Gabriel Martins','11991234567','12345678909'),
+('Lindalva Lira','81987654321','11234456789');
 
 INSERT INTO minha_ubs.endereco (pais,uf,cidade,bairro,rua,numero,CEP,complemento,latitude,longitude) 
 VALUES
@@ -59,5 +59,5 @@ INSERT INTO minha_ubs.posto_pessoas (id_pessoa,id_posto,id_tipo) VALUES
 (7,1,2),
 (8,1,2),
 (9,1,2),
-(10,1,2);
+(10,1,2),
 (11,1,1);
