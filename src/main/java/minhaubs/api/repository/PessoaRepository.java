@@ -1,8 +1,6 @@
 package minhaubs.api.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
-
 import minhaubs.api.entity.Pessoa;
 import java.util.List;
 

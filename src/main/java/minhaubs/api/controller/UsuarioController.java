@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import minhaubs.api.entity.Pessoa;
 import minhaubs.api.entity.Usuario;
-import minhaubs.api.infra.Constants;
 import minhaubs.api.infra.Utils;
 import minhaubs.api.repository.PessoaRepository;
 import minhaubs.api.repository.UsuarioRepository;
@@ -35,9 +34,6 @@ public class UsuarioController {
     
     @Autowired
 	private UsuarioRepository usuarioRepository;
-    
-    @Autowired
-    private Utils utils;
     
     public String validarUsuario(String userCpf) {
         return this.usuarioService.getIdProfissional(userCpf);
@@ -78,6 +74,7 @@ public class UsuarioController {
 
     }
     
+    @SuppressWarnings("rawtypes")
     @CrossOrigin("http://localhost:8080")
     @PostMapping(path="/login")
     public ResponseEntity login(@RequestBody Map<String, String> userDataLogin) throws NoSuchAlgorithmException{
