@@ -43,6 +43,11 @@ public class UsuarioController {
         return this.usuarioService.getVinculosAtivos(ProfessionalId, userCpf);
     }
 
+    /**
+     * @param userData
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     @CrossOrigin("http://localhost:8080")
     @PostMapping(path="/cadastrar")
     public String cadastrar(@RequestBody Map<String, String> userData) throws NoSuchAlgorithmException{
@@ -68,7 +73,7 @@ public class UsuarioController {
         
         Usuario user = new Usuario(123L, email, senha, newPerson);
         
-        Usuario newUser = usuarioRepository.save(user);
+        usuarioRepository.save(user);
         
         return "Usuario Cadastrado com Sucesso: " + user.getEmail();
 
@@ -87,7 +92,6 @@ public class UsuarioController {
         if(listUserAuthenticated.size() > 0) {
         	userAuthenticated = listUserAuthenticated.get(0);
         }else {
-        	//return "Logou não, man";
         	return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); 
         }
         

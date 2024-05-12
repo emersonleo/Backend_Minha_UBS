@@ -18,7 +18,7 @@ import org.springframework.http.HttpMethod;
 public class UsuarioService {
 
     @Bean 
-        public RestTemplate restTemplate(RestTemplateBuilder builder){
+    public RestTemplate restTemplate(RestTemplateBuilder builder){
         return builder.build();
     }
 

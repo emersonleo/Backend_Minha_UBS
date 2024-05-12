@@ -1,33 +1,32 @@
 package minhaubs.api.entity;
 
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Table(name = "pessoa")
-@Entity(name = "Pessoa")
+@Table(name = "familia_pessoa")
+@Entity(name = "Familia_Pessoa")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Embeddable
-public class Pessoa {
-    
+public class Familia_Pessoa {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
-    private String fone;
+    @OneToOne
+    @JoinColumn(name = "id_pessoa", nullable = false,  referencedColumnName = "id")
+    private Pessoa pessoa;
     
-    private String cpf;
-
+    @OneToOne
+    @JoinColumn(name = "id_familia", nullable = false, referencedColumnName = "id")
+    private Familia familia;
 }
