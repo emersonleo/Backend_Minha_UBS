@@ -9,7 +9,7 @@ import minhaubs.api.entity.Posto_Pessoas;
 
 public interface PostoPessoaRepository extends JpaRepository<Posto_Pessoas,Long>{
 
-        @Query("SELECT nome, fone FROM Posto_Pessoas as pp INNER JOIN Pessoa as p on p.id  = " + 
+        @Query("SELECT pp.pessoa.id, nome, fone FROM Posto_Pessoas as pp INNER JOIN Pessoa as p on p.id  = " + 
                 "pp.pessoa.id where pp.posto.id = :postoId and  pp.id_tipo = 2")
         List<String> findAllPersonsByBHUId(@Param("postoId") Long BHUId);
 
