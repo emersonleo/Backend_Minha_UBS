@@ -15,3 +15,7 @@ public interface VisitaRepository extends JpaRepository<Visita,Long> {
      "(:agente IS NULL OR v.agente.id = :agente) AND (:dataInicio IS NULL OR v.dataHora >= :dataInicio) AND (:dataFim IS NULL OR v.dataHora <= :dataFim)")
     List<Visita> findByFiltro(@Param("posto") Long idUnit, @Param("agente") Long idAgent, @Param("dataInicio") LocalDateTime dataInicio, @Param("dataFim") LocalDateTime dataFim);
 }
+
+
+//        @Query("SELECT pp.pessoa.id, nome, fone FROM Posto_Pessoas as pp INNER JOIN Pessoa as p on p.id  = " + 
+//"pp.pessoa.id where pp.posto.id = :postoId and  pp.id_tipo = 2")

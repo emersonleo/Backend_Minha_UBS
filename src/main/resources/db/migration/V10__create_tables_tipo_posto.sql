@@ -31,3 +31,6 @@ CREATE TABLE `posto_pessoas` (
 	CONSTRAINT `FK_pp_tipo_pessoa` FOREIGN KEY (`id_tipo`) REFERENCES `tipo_pessoa` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 COLLATE='utf8mb4_general_ci';
+
+ALTER TABLE `visita`
+ADD CONSTRAINT `FK_visita_posto` FOREIGN KEY (`posto`) REFERENCES `posto` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;

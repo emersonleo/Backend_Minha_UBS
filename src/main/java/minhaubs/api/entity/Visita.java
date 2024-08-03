@@ -1,18 +1,15 @@
 package minhaubs.api.entity;
 
-import java.security.Timestamp;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -39,6 +36,10 @@ public class Visita {
     @OneToOne
     @JoinColumn(name = "agente", nullable = false)
     private Pessoa pessoa;
+
+    // @OneToOne
+    // @JoinColumn(name = "posto", nullable = false)
+    // private Posto posto;
 
     @CreationTimestamp
     private LocalDateTime dataHora;
