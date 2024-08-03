@@ -1,6 +1,8 @@
 package minhaubs.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,11 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 import minhaubs.api.DTO.FamilyDTO;
 import minhaubs.api.DTO.PessoaDTO;
 import minhaubs.api.entity.Familia;
+import minhaubs.api.entity.InformacoesSaude;
 import minhaubs.api.entity.Pessoa;
+import minhaubs.api.entity.Posto;
+import minhaubs.api.entity.RegistrosCasos;
 import minhaubs.api.entity.Visita;
 import minhaubs.api.repository.FamiliaRepository;
+import minhaubs.api.repository.InformacoesSaudeRepository;
 import minhaubs.api.repository.PessoaRepository;
 import minhaubs.api.repository.PostoPessoaRepository;
+import minhaubs.api.repository.PostoRepository;
+import minhaubs.api.repository.RegistrosCasosRepository;
 import minhaubs.api.repository.VisitaRepository;
 
 @CrossOrigin
@@ -44,6 +52,15 @@ public class PostoController {
 
     @Autowired
 	private VisitaRepository visitaRepository;
+
+    @Autowired
+	private InformacoesSaudeRepository informacoesSaudeRepository;
+
+    @Autowired
+	private PostoRepository postoRepository;
+
+    @Autowired
+	private RegistrosCasosRepository registerCaseRepository;
 
     @GetMapping("/pessoas")
     @ResponseBody
@@ -72,7 +89,7 @@ public class PostoController {
     @SuppressWarnings("rawtypes")
     @PostMapping("/visita")
     @ResponseBody
-    public ResponseEntity getFamiliaByPosto(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
+    public ResponseEntity createVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
 
         Long id_person = Long.parseLong(visitData.get("agente"));
         Long id_family = Long.parseLong(visitData.get("familia"));
@@ -86,10 +103,64 @@ public class PostoController {
 
         Visita visita = new Visita();
         visita.setId(123L);
-        visita.setFamilia(family.get());
+        visita.setFamilia(family.get()); 
         visita.setPessoa(person.get());
+        visita.setDataHora(LocalDateTime.now());
         
         visitaRepository.save(visita);
     	return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @SuppressWarnings("rawtypes")
+    @PostMapping("/listarvisitas")
+    @ResponseBody
+    public ResponseEntity listVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
+
+        Long idUnit = Long.parseLong(visitData.get("agente"));
+        Long idAgent = Long.parseLong(visitData.get("familia"));
+        String dateStart = visitData.get("dataInicio");
+        String dateEnd = visitData.get("dataFim");
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        LocalDateTime dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
+        LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
+
+        Object result =  visitaRepository.findByFiltro(idUnit, idAgent, dataInicio, dataFim);
+
+    	return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+
+    @SuppressWarnings("rawtypes")
+    @PostMapping("/registrarcaso")
+    @ResponseBody
+    public ResponseEntity registerCase(@RequestBody Map<String, String> caseData) throws NoSuchAlgorithmException{
+
+        Long idUnit = Long.parseLong(caseData.get("posto"));
+        Long idAgent = Long.parseLong(caseData.get("agente"));
+        Long idPerson = Long.parseLong(caseData.get("pessoa"));
+        Long idCase = Long.parseLong(caseData.get("caso"));
+
+        if(idUnit == null || idAgent == null || idPerson == null || idCase == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Pessoa> agent = pessoaRepository.findById(idAgent);
+        Optional<Pessoa> person = pessoaRepository.findById(idPerson);
+        Optional<InformacoesSaude> infoHealth = informacoesSaudeRepository.findById(idCase);
+        Optional<Posto> unit = postoRepository.findById(idUnit);
+
+        RegistrosCasos registerCase = new RegistrosCasos();
+        registerCase.setId(123L);
+        registerCase.setAgente(agent.get()); 
+        registerCase.setPessoa(person.get());
+        registerCase.setInfo_saude(infoHealth.get());
+        registerCase.setPosto(unit.get());
+
+        registerCaseRepository.save(registerCase);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
 }

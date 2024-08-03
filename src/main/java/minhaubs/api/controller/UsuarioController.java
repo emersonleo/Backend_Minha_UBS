@@ -43,11 +43,6 @@ public class UsuarioController {
         return this.usuarioService.getVinculosAtivos(ProfessionalId, userCpf);
     }
 
-    /**
-     * @param userData
-     * @return
-     * @throws NoSuchAlgorithmException
-     */
     @CrossOrigin("http://localhost:8080")
     @PostMapping(path="/cadastrar")
     public String cadastrar(@RequestBody Map<String, String> userData) throws NoSuchAlgorithmException{
