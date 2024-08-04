@@ -37,9 +37,9 @@ public class Visita {
     @JoinColumn(name = "agente", nullable = false)
     private Pessoa pessoa;
 
-    // @OneToOne
-    // @JoinColumn(name = "posto", nullable = false)
-    // private Posto posto;
+    @OneToOne
+    @JoinColumn(name = "posto", nullable = false)
+    private Posto posto;
 
     @CreationTimestamp
     private LocalDateTime dataHora;
