@@ -91,13 +91,15 @@ public class PostoController {
     @ResponseBody
     public ResponseEntity createVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
 
-        Long id_person = Long.parseLong(visitData.get("agente"));
-        Long id_family = Long.parseLong(visitData.get("familia"));
+        Long idPerson = Long.parseLong(visitData.get("agente"));
+        Long idFamily = Long.parseLong(visitData.get("familia"));
+        Long idUnit = Long.parseLong(visitData.get("posto"));
 
-        Optional<Familia> family = familiaRepository.findById(id_family);
-        Optional<Pessoa> person = pessoaRepository.findById(id_person);
+        Optional<Familia> family = familiaRepository.findById(idFamily);
+        Optional<Pessoa> person = pessoaRepository.findById(idPerson);
+        Optional<Posto> unit = postoRepository.findById(idUnit);
 
-        if(family.isEmpty() || person.isEmpty()){
+        if(family.isEmpty() || person.isEmpty() || unit.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
         }
 
@@ -105,6 +107,7 @@ public class PostoController {
         visita.setId(123L);
         visita.setFamilia(family.get()); 
         visita.setPessoa(person.get());
+        visita.setPosto(unit.get());
         visita.setDataHora(LocalDateTime.now());
         
         visitaRepository.save(visita);
@@ -112,24 +115,24 @@ public class PostoController {
     }
 
 
-    @SuppressWarnings("rawtypes")
+    //@SuppressWarnings("rawtypes")
     @PostMapping("/listarvisitas")
     @ResponseBody
-    public ResponseEntity listVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
+    public List<Visita> listVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
 
-        Long idUnit = Long.parseLong(visitData.get("agente"));
-        Long idAgent = Long.parseLong(visitData.get("familia"));
+        Long idUnit = Long.parseLong(visitData.get("posto"));
+        Long idAgent = Long.parseLong(visitData.get("agente"));
+        //Long idFamilia = Long.parseLong(visitData.get("familia"));
         String dateStart = visitData.get("dataInicio");
         String dateEnd = visitData.get("dataFim");
-
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
         LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
 
-        Object result =  visitaRepository.findByFiltro(idUnit, idAgent, dataInicio, dataFim);
+        List<Visita> result =  visitaRepository.findByFiltro(idUnit, idAgent, dataInicio, dataFim);
 
-    	return new ResponseEntity<>(HttpStatus.CREATED);
+    	return result;
     }
 
 
