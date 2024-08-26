@@ -69,7 +69,7 @@ public class PostoController {
         ArrayList<PessoaDTO> result = new ArrayList<>();
         for(String i: resultSearch){
             String[] personFinded = i.split(",");
-            result.add(new PessoaDTO(personFinded[0], personFinded[1], personFinded[2]));
+            result.add(new PessoaDTO(Integer.parseInt(personFinded[0]), personFinded[1], personFinded[2]));
         }
         return result;
     }
