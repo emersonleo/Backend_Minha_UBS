@@ -39,4 +39,8 @@ public class RegistrosCasos {
     @OneToOne
     @JoinColumn(name = "id_informacoes_saude", nullable = false,  referencedColumnName = "id")
     private InformacoesSaude info_saude;
+
+    @OneToOne
+    @JoinColumn(name = "id_endereco", nullable = false,  referencedColumnName = "id")
+    private Endereco endereco;
 }

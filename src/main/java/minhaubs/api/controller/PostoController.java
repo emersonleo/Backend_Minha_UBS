@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import minhaubs.api.DTO.FamilyDTO;
 import minhaubs.api.DTO.PessoaDTO;
+import minhaubs.api.entity.Endereco;
 import minhaubs.api.entity.Familia;
 import minhaubs.api.entity.InformacoesSaude;
 import minhaubs.api.entity.Pessoa;
 import minhaubs.api.entity.Posto;
 import minhaubs.api.entity.RegistrosCasos;
 import minhaubs.api.entity.Visita;
+import minhaubs.api.repository.EnderecoRepository;
 import minhaubs.api.repository.FamiliaRepository;
 import minhaubs.api.repository.InformacoesSaudeRepository;
 import minhaubs.api.repository.PessoaRepository;
@@ -61,6 +63,9 @@ public class PostoController {
 
     @Autowired
 	private RegistrosCasosRepository registerCaseRepository;
+
+    @Autowired
+	private EnderecoRepository enderecoRepository;
 
     @GetMapping("/pessoas")
     @ResponseBody
@@ -154,6 +159,7 @@ public class PostoController {
         Optional<Pessoa> person = pessoaRepository.findById(idPerson);
         Optional<InformacoesSaude> infoHealth = informacoesSaudeRepository.findById(idCase);
         Optional<Posto> unit = postoRepository.findById(idUnit);
+        List<Endereco> endereco = enderecoRepository.findByPerson(idPerson);
 
         RegistrosCasos registerCase = new RegistrosCasos();
         registerCase.setId(123L);
@@ -161,6 +167,7 @@ public class PostoController {
         registerCase.setPessoa(person.get());
         registerCase.setInfo_saude(infoHealth.get());
         registerCase.setPosto(unit.get());
+        registerCase.setEndereco(endereco.get(0));
 
         registerCaseRepository.save(registerCase);
         return new ResponseEntity<>(HttpStatus.CREATED);
