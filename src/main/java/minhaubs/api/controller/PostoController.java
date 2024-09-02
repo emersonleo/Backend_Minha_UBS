@@ -159,7 +159,7 @@ public class PostoController {
         Optional<Pessoa> person = pessoaRepository.findById(idPerson);
         Optional<InformacoesSaude> infoHealth = informacoesSaudeRepository.findById(idCase);
         Optional<Posto> unit = postoRepository.findById(idUnit);
-        List<Endereco> endereco = enderecoRepository.findByPerson(idPerson);
+        Optional<Endereco> endereco = enderecoRepository.findByPerson(idPerson);
 
         RegistrosCasos registerCase = new RegistrosCasos();
         registerCase.setId(123L);
@@ -167,7 +167,7 @@ public class PostoController {
         registerCase.setPessoa(person.get());
         registerCase.setInfo_saude(infoHealth.get());
         registerCase.setPosto(unit.get());
-        registerCase.setEndereco(endereco.get(0));
+        registerCase.setEndereco(endereco.get());
 
         registerCaseRepository.save(registerCase);
         return new ResponseEntity<>(HttpStatus.CREATED);
