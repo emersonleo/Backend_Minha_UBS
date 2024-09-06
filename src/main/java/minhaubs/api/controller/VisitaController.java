@@ -23,7 +23,6 @@ import minhaubs.api.entity.Posto;
 import minhaubs.api.entity.Visita;
 import minhaubs.api.repository.FamiliaRepository;
 import minhaubs.api.repository.PessoaRepository;
-import minhaubs.api.repository.PostoPessoaRepository;
 import minhaubs.api.repository.PostoRepository;
 import minhaubs.api.repository.VisitaRepository;
 

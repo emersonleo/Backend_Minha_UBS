@@ -1,6 +1,9 @@
 package minhaubs.api.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -79,16 +82,21 @@ public class CasosController {
 
     }
 
-    @SuppressWarnings("rawtypes")
     @PostMapping("/listarcasos")
     @ResponseBody
-    public ResponseEntity getCases(@RequestBody Map<String, String> caseData){
+    public List<Endereco> getCases(@RequestBody Map<String, String> caseData){
         Long idUnit = Long.parseLong(caseData.get("posto"));
         Long idAgent = Long.parseLong(caseData.get("agente"));
         Long idCase = Long.parseLong(caseData.get("caso"));
         String dateStart = caseData.get("dataInicio");
         String dateEnd = caseData.get("dataFim");
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDateTime firstDate = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
+        LocalDateTime finalDate = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
+
+        List<Endereco> cases = enderecoRepository.findAddressByCases(idAgent,idUnit,idCase);
+
+        return cases;
     }
 }
