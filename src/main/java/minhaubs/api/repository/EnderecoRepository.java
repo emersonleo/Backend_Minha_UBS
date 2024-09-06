@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface EnderecoRepository extends JpaRepository<Endereco, Long>{
     
-    // @Query("SELECT v FROM Visita as v WHERE (:posto IS NULL OR v.posto.id = :posto) AND " + 
-    //  "(:agente IS NULL OR v.pessoa.id = :agente) AND (:dataInicio IS NULL OR v.dataHora >= :dataInicio) AND (:dataFim IS NULL OR v.dataHora <= :dataFim)")
     @Query("SELECT DISTINCT e " + 
                 "FROM Familia f " + 
                 "INNER JOIN Familia_Pessoa fp ON f.id = fp.familia.id " + 

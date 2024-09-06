@@ -73,7 +73,6 @@ public class VisitaController {
     }
 
 
-    //@SuppressWarnings("rawtypes")
     @PostMapping("/listarvisitas")
     @ResponseBody
     public List<Visita> listVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{

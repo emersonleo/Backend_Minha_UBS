@@ -91,12 +91,13 @@ public class CasosController {
         String dateStart = caseData.get("dataInicio");
         String dateEnd = caseData.get("dataFim");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDateTime firstDate = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
-        LocalDateTime finalDate = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        // LocalDateTime firstDate = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
+        // LocalDateTime finalDate = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
 
         List<Endereco> cases = enderecoRepository.findAddressByCases(idAgent,idUnit,idCase);
 
         return cases;
     }
+
 }
