@@ -56,7 +56,7 @@ public class VisitaController {
         Optional<Familia> family = familiaRepository.findById(idFamily);
         Optional<Pessoa> person = pessoaRepository.findById(idPerson);
         Optional<Posto> unit = postoRepository.findById(idUnit);
-
+        System.out.println(visitData);
         if(family.isEmpty() || person.isEmpty() || unit.isEmpty()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); 
         }
@@ -77,17 +77,27 @@ public class VisitaController {
     @ResponseBody
     public List<Visita> listVisit(@RequestBody Map<String, String> visitData) throws NoSuchAlgorithmException{
 
+        String mockHour = " 00:00:00";
         Long idUnit = Long.parseLong(visitData.get("posto"));
         Long idAgent = Long.parseLong(visitData.get("agente"));
-        //Long idFamilia = Long.parseLong(visitData.get("familia"));
         String dateStart = visitData.get("dataInicio");
         String dateEnd = visitData.get("dataFim");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        LocalDateTime dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
-        LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
+        String dateHourStart = visitData.get("dataInicio") + mockHour;
+        String dateHourEnd = visitData.get("dataFim") + mockHour;
+        List<Visita> result = null;
 
-        List<Visita> result =  visitaRepository.findByFiltro(idUnit, idAgent, dataInicio, dataFim);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        try {
+            LocalDateTime  dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateHourStart, formatter);
+            LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime .parse(dateHourEnd, formatter);
+
+            System.out.println(dataInicio);
+    
+            result =  visitaRepository.findByDateRange(idUnit, idAgent, dataInicio, dataFim);
+        } catch (Exception e) {
+           System.out.println(e.getMessage());
+        }
 
     	return result;
     }

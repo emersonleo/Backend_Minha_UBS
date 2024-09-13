@@ -85,19 +85,29 @@ public class CasosController {
     @PostMapping("/listarcasos")
     @ResponseBody
     public List<Endereco> getCases(@RequestBody Map<String, String> caseData){
+        String mockHour = " 00:00:00";
         Long idUnit = Long.parseLong(caseData.get("posto"));
         Long idAgent = Long.parseLong(caseData.get("agente"));
         Long idCase = Long.parseLong(caseData.get("caso"));
+
         String dateStart = caseData.get("dataInicio");
         String dateEnd = caseData.get("dataFim");
 
-        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        // LocalDateTime firstDate = dateStart.isEmpty() ? null : LocalDateTime.parse(dateStart, formatter);
-        // LocalDateTime finalDate = dateEnd.isEmpty() ? null : LocalDateTime.parse(dateEnd, formatter);
+        String dateHourStart = dateStart + mockHour;
+        String dateHourEnd = dateEnd + mockHour;
+        List<Endereco> cases = null;
 
-        List<Endereco> cases = enderecoRepository.findAddressByCases(idAgent,idUnit,idCase);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        try {
+            LocalDateTime  dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateHourStart, formatter);
+            LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime .parse(dateHourEnd, formatter);
+    
+            cases = enderecoRepository.findAddressByCases(idAgent,idUnit,idCase);
+        } catch (Exception e) {
+           System.out.println(e.getMessage());
+        }
 
+        //TO DO: Substituir por um registerReposity.find personalizado pq os retornos de casos incluem endereço
         return cases;
     }
-
 }

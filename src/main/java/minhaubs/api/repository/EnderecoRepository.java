@@ -21,7 +21,8 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long>{
 
     @Query(value = "SELECT e.* FROM registros_casos rc INNER JOIN " +
     "endereco e ON e.id  = rc.id_endereco where rc.id_posto = :posto " +
-    "and rc.id_agente = :agente and rc.id_informacoes_saude = :caso", 
+    "and rc.id_agente = :agente and rc.id_informacoes_saude = :caso" +
+    "AND rc.dataHora BETWEEN :dataInicio AND :dataFim", 
     nativeQuery = true)
     List<Endereco> findAddressByCases(@Param("agente") Long agent, @Param("posto") Long unit,
     @Param("caso") Long idCase);
