@@ -91,8 +91,6 @@ public class VisitaController {
         try {
             LocalDateTime  dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateHourStart, formatter);
             LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime .parse(dateHourEnd, formatter);
-
-            System.out.println(dataInicio);
     
             result =  visitaRepository.findByDateRange(idUnit, idAgent, dataInicio, dataFim);
         } catch (Exception e) {

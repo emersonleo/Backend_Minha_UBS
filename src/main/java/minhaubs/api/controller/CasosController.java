@@ -102,12 +102,12 @@ public class CasosController {
             LocalDateTime  dataInicio = dateStart.isEmpty() ? null : LocalDateTime.parse(dateHourStart, formatter);
             LocalDateTime dataFim = dateEnd.isEmpty() ? null : LocalDateTime .parse(dateHourEnd, formatter);
     
-            cases = enderecoRepository.findAddressByCases(idAgent,idUnit,idCase);
+            System.out.println(dataInicio);
+            cases = enderecoRepository.findAddressByCases(idAgent,idUnit,idCase,dataInicio,dataFim);
         } catch (Exception e) {
            System.out.println(e.getMessage());
         }
 
-        //TO DO: Substituir por um registerReposity.find personalizado pq os retornos de casos incluem endereço
         return cases;
     }
 }
